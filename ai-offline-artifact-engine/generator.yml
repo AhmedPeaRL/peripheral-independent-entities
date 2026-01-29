@@ -1,0 +1,21 @@
+name: Silent Artifact Generation
+
+on:
+  schedule:
+    - cron: "0 3 */7 * *"
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate artifact
+        run: |
+          echo "An artifact was generated without witness." > artifact.md
+      - name: Commit artifact
+        run: |
+          git config user.name "silent-engine"
+          git config user.email "silent@nowhere"
+          git add artifact.md
+          git commit -m "Artifact emerged"
+          git push
